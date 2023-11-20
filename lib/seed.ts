@@ -32,8 +32,33 @@ export async function seed() {
   ])
   console.log(`Seeded ${users.length} users`)
 
+  const createNotesTable = await sql`
+  CREATE TABLE IF NOT EXISTS notes (
+    id SERIAL PRIMARY KEY,
+    note VARCHAR(255) NOT NULL,
+    "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  );
+  `
+
+  const notes = await Promise.all([
+    sql`
+          INSERT INTO notes (note)
+          VALUES ('note 1 - ciao ciao');
+      `,
+      sql`
+        INSERT INTO notes (note)
+        VALUES ('note 2 - hey hey');
+     ` ,
+      sql`
+          INSERT INTO notes (note)
+          VALUES ('note 3 - bye bye');
+      `,
+  ])
+
   return {
     createTable,
     users,
+    createNotesTable,
+    notes
   }
 }

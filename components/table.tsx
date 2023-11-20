@@ -5,11 +5,12 @@ import RefreshButton from './refresh-button'
 import { seed } from '@/lib/seed'
 
 export default async function Table() {
-  let data
+  let data, notesData
   let startTime = Date.now()
 
   try {
     data = await sql`SELECT * FROM users`
+    notesData = await sql`SELECT * FROM notes`
   } catch (e: any) {
     if (e.message.includes('relation "users" does not exist')) {
       console.log(
@@ -19,13 +20,17 @@ export default async function Table() {
       await seed()
       startTime = Date.now()
       data = await sql`SELECT * FROM users`
+      notesData = await sql`SELECT * FROM notes`
     } else {
       throw e
     }
   }
 
   const { rows: users } = data
+  const { rows: notes } = notesData
   const duration = Date.now() - startTime
+  console.log(notesData);
+  
 
   return (
     <div className="bg-white/30 p-12 shadow-xl ring-1 ring-gray-900/5 rounded-lg backdrop-blur-lg max-w-xl mx-auto w-full">
@@ -38,6 +43,15 @@ export default async function Table() {
         </div>
         <RefreshButton />
       </div>
+      <div>
+        <h1>Notes</h1>
+        <div>
+          {notes.map(note => (
+            <div key={note.id}>{note.note}</div>
+          ))}
+        </div>
+      </div>
+
       <div className="divide-y divide-gray-900/5">
         {users.map((user) => (
           <div
