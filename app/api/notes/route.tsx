@@ -1,7 +1,7 @@
 import { sql } from '@vercel/postgres'
 import { NextRequest } from 'next/server'
 
-export async function POST(req: NextRequest, res: NextResponse){
+export async function POST(req: NextRequest, res: any){
 
     const body : FormData = await req.formData()
     const note = body.get('note')?.toString()
