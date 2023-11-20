@@ -12,7 +12,7 @@ export default async function Table() {
     data = await sql`SELECT * FROM users`
     notesData = await sql`SELECT * FROM notes`
   } catch (e: any) {
-    if (e.message.includes('relation "users" does not exist')) {
+    //if (e.message.includes('relation "users" does not exist')) {
       console.log(
         'Table does not exist, creating and seeding it with dummy data now...'
       )
@@ -21,9 +21,9 @@ export default async function Table() {
       startTime = Date.now()
       data = await sql`SELECT * FROM users`
       notesData = await sql`SELECT * FROM notes`
-    } else {
+    /*} else {
       throw e
-    }
+    }*/
   }
 
   const { rows: users } = data
@@ -43,6 +43,7 @@ export default async function Table() {
         </div>
         <RefreshButton />
       </div>
+
       <div>
         <h1>Notes</h1>
         <div>
