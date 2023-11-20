@@ -51,6 +51,11 @@ export default async function Table() {
             <div key={note.id}>{note.note}</div>
           ))}
         </div>
+
+        <form action="/api/notes" method='post'>
+          <input type="text" name='note' />
+          <button>Insert note</button>
+        </form>
       </div>
 
       <div className="divide-y divide-gray-900/5">
